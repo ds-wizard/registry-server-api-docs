@@ -1,0 +1,906 @@
+FORMAT: 1A
+HOST: https://private-902e1c-registryserver.apiary-mock.com/
+
+# Registry Server API Docs
+
+## Group ActionKeys
+
+### ActionKeys Collection [/action-keys]
+
+#### Create ActionKey [POST]
+
+- **Possible failures:**
+  - HTTP 400
+    - Invalid JSON
+    - Missing required property
+
++ Request (application/json)
+
+    + Attributes (ActionKey)
+
++ Response 201 (application/json)
+
+
+## Group Organization
+
+### Organizations Collection [/organizations]
+
+#### List All Organizations [GET]
+
+- **Possible failures:**
+  - HTTP 401
+  - HTTP 403
+    - Forbidden to perform 'List Organizations'
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer dkajsdijviawefnjwengiojagiag
+
++ Response 200 (application/json)
+
+    + Attributes (array[Organization])
+
+
+#### Create a New Organization [POST]
+
+- **Possible failures:**
+  - HTTP 400
+    - Invalid JSON
+    - Missing required property
+    - Invalid OrganizationId
+    - OrganizationId Duplication
+    - OrganizationId Duplication
+
++ Request (application/json)
+
+    + Attributes (OrganizationCreate)
+
++ Response 201 (application/json)
+
+    + Attributes (Organization)
+
+
+### Organization Detail [/organizations/{orgId}]
+
+#### Get detail of Organization [GET]
+
+- **Possible failures:**
+  - HTTP 401
+  - HTTP 403
+    - Forbidden to perform 'Detail Organization'
+  - HTTP 404
+    - Entity doesn't exist
+
++ Parameters
+    
+    + orgId: dsw (string) ... OrganizationId of the Organization
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer dkajsdijviawefnjwengiojagiag
+
++ Response 200 (application/json)
+
+    + Attributes (Organization)
+
+
+#### Update Organization [PUT]
+
+- **Possible failures:**
+  - HTTP 400
+    - Invalid JSON
+    - Missing required property
+  - HTTP 401
+  - HTTP 403
+    - Forbidden to perform 'Detail Organization'
+  - HTTP 404
+    - Entity doesn't exist
+
++ Parameters
+    
+    + orgId: dsw (string) ... OrganizationId of the Organization
+    
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer dkajsdijviawefnjwengiojagiag
+
+    + Attributes (OrganizationChange)
+
++ Response 200 (application/json)
+
+    + Attributes (Organization)
+
+
+#### Delete Organization [DELETE]
+
+- **Possible failures:**
+  - HTTP 401
+  - HTTP 403
+    - Forbidden to perform 'Detail Organization'
+  - HTTP 404
+    - Entity doesn't exist
+    
++ Parameters
+    
+    + orgId: dsw (string) ... OrganizationId of the Organization
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer dkajsdijviawefnjwengiojagiag
+
++ Response 204
+
+
+#### Update Organization State [PUT /organizations/{orgId}/state{?hash}]
+
+- **Possible failures:**
+  - HTTP 400
+    - Invalid JSON
+    - Missing required property
+    - Hash Absence
+  - HTTP 404
+    - Entity doesn't exist
+
++ Parameters
+    
+    + orgId: dsw (string) ... OrganizationId of the Organization
+    + hash: h53j1jb (string) ... Random generated hash, provided in email
+    
++ Request (application/json)
+
+    + Attributes (OrganizationState)
+
++ Response 200 (application/json)
+
+    + Attributes (Organization)
+
+#### Update Organization Token [PUT /organizations/{orgId}/token{?hash}]
+
+- **Possible failures:**
+  - HTTP 400
+    - Hash Absence
+  - HTTP 404
+    - Entity doesn't exist
+
++ Parameters
+    
+    + orgId: dsw (string) ... OrganizationId of the Organization
+    + hash: h53j1jb (string) ... Random generated hash, provided in email
+
++ Response 200 (application/json)
+
+    + Attributes (Organization)
+
+
+## Group Package
+
+### Unique Packages Collection [/packages/unique{?orgId}{?kmId}]
+
+#### List All Unique Packages [GET]
+
++ Parameters
+    
+    + orgId: dsw (string) ... Organization ID
+    
+    + kmId: h53j1jb (string) ... Knowledge Model ID 
+
++ Response 200 (application/json)
+
+    + Attributes (array[PackageSimple])
+
+
+### Package Detail [/packages/{pkgId}]
+
+#### Get detail of Package [GET]
+
++ Parameters
+    
+    + pkgId: dsw:root:1.0.0 (string) ... Package ID
+
++ Response 200 (application/json)
+
+    + Attributes (PackageDetail)
+
+#### Export Package [GET /packages/{pkgId}/export]
+
++ Parameters
+    
+    + pkgId: dsw:root:1.0.0 (string) ... Package ID
+    
++ Request
+
+    + Headers
+    
+            Authorization: Bearer dkajsdijviawefnjwengiojagiag
+
++ Response 200 (application/json)
+
+    + Attributes (PackageBundle)
+
+
+# Data Structures
+
+## Action Key Section ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+### ActionKey (object)
++ type (ActionKeyType)
++ email: `dsw@example.com` (string)
+
+### ActionKeyType (enum[string])
++ `RegistrationActionKey`
++ `ForgottenTokenActionKey`
+
+
+## Event Section ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+### Event (enum)
++ (AddKnowledgeModelEvent)
++ (EditKnowledgeModelEvent)
++ (AddChapterEvent)
++ (EditChapterEvent)
++ (DeleteChapterEvent)
++ (AddQuestionEvent)
++ (EditQuestionEvent)
++ (DeleteQuestionEvent)
++ (AddAnswerEvent)
++ (EditAnswerEvent)
++ (DeleteAnswerEvent)
++ (AddExpertEvent)
++ (EditExpertEvent)
++ (DeleteExpertEvent)
++ (AddReferenceEvent)
++ (EditReferenceEvent)
++ (DeleteReferenceEvent)
++ (AddTagEvent)
++ (EditTagEvent)
++ (DeleteTagEvent)
++ (AddIntegrationEvent)
++ (EditIntegrationEvent)
++ (DeleteIntegrationEvent)
+
+### AddKnowledgeModelEvent (object)
++ eventType: AddKnowledgeModelEvent (string)
++ uuid: `53341c8c-ce33-4e6e-ae97-f1787b825215` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `9219c5d5-5f0c-4465-864a-46846f65581f ` (string)
++ name: My First Knowledge Model (string)
+
+### EditKnowledgeModelEvent (object)
++ eventType: EditKnowledgeModelEvent (string)
++ uuid: `1f72591a-6a72-42b7-b3da-5c4be987b5ee` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `9219c5d5-5f0c-4465-864a-46846f65581f ` (string)
++ name: My First Knowledge Model (string)
++ chapterUuids: [] (array[string])
++ tagUuids: [] (array[string])
++ integrationUuids: [] (array[string])
+
+### AddChapterEvent (object)
++ eventType: AddChapterEvent (string)
++ uuid: `8fbf07f8-5581-452d-b640-b244ad8d1fd8` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `4ec7611b-0392-4602-9302-dfcb79654d24` (string)
++ title: `First Chapter` (string)
++ text: `Some descriptive content of this chapter` (string)
++ questions (array[Question])
+
+### EditChapterEvent (object)
++ eventType: EditChapterEvent (string)
++ uuid: `2600f890-df83-419f-a875-078d3526e496` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `4ec7611b-0392-4602-9302-dfcb79654d24` (string)
++ title: `First Chapter` (string)
++ text: `Some descriptive content of this chapter` (string)
++ questionUuids: [] (array[string])
+
+### DeleteChapterEvent (object)
++ eventType: DeleteChapterEvent (string)
++ uuid: `b0fa9a24-b74d-4755-94d2-71bfb2e28d96` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `4ec7611b-0392-4602-9302-dfcb79654d24` (string)
+
+### AddQuestionEvent (enum)
++ (AddOptionsQuestionEvent)
++ (AddListQuestionEvent)
++ (AddValueQuestionEvent)
++ (AddIntegrationQuestionEvent)
+
+### AddOptionsQuestionEvent (object)
++ eventType: AddQuestionEvent (string)
++ questionType: OptionsQuestion (string)
++ uuid: `c44f5317-882b-4e54-8403-f2a791ac9492` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `44cd1310-3c99-4e5e-9036-dda31300f510` (string)
++ type: `QuestionTypeOptions` (string)
++ title: `First Question` (string)
++ text: `Some descriptive content of this question` (string, optional)
++ requiredLevel: 2 (number, optional)
++ tagUuids: [`1f8dcefc-d57f-40f0-8b8f-50fd0b3cce1f`] (array[string])
+
+### AddListQuestionEvent (object)
++ eventType: AddQuestionEvent (string)
++ questionType: ListQuestion (string)
++ uuid: `c44f5317-882b-4e54-8403-f2a791ac9492` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `44cd1310-3c99-4e5e-9036-dda31300f510` (string)
++ type: `QuestionTypeOptions` (string)
++ title: `First Question` (string)
++ text: `Some descriptive content of this question` (string, optional)
++ requiredLevel: 2 (number, optional)
++ tagUuids: [`1f8dcefc-d57f-40f0-8b8f-50fd0b3cce1f`] (array[string])
++ itemTemplateTitle: Title (string)
+
+### AddValueQuestionEvent (object)
++ eventType: AddQuestionEvent (string)
++ questionType: ValueQuestion (string)
++ uuid: `c44f5317-882b-4e54-8403-f2a791ac9492` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `44cd1310-3c99-4e5e-9036-dda31300f510` (string)
++ type: `QuestionTypeOptions` (string)
++ title: `First Question` (string)
++ text: `Some descriptive content of this question` (string, optional)
++ requiredLevel: 2 (number, optional)
++ tagUuids: [`1f8dcefc-d57f-40f0-8b8f-50fd0b3cce1f`] (array[string])
++ valueType (QuestionValueType)
+
+### AddIntegrationQuestionEvent (object)
++ eventType: AddQuestionEvent (string)
++ questionType: IntegrationQuestion (string)
++ uuid: `6567536c-91a5-4890-be2d-bbe4c38ddcb6` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `0eb21bdf-07b8-4c90-bf08-48dbef37680e` (string)
++ type: `QuestionTypeOptions` (string)
++ title: `First Question` (string)
++ text: `Some descriptive content of this question` (string, optional)
++ requiredLevel: 2 (number, optional)
++ tagUuids: [`1f8dcefc-d57f-40f0-8b8f-50fd0b3cce1f`] (array[string])
++ integrationUuid: `60528d86-d8b2-40ae-bf89-3bc44cdc711a` (string)
++ props (object)
+    + domain: dog (string)
+
+### EditQuestionEvent (enum)
++ (EditOptionsQuestionEvent)
++ (EditListQuestionEvent)
++ (EditValueQuestionEvent)
++ (EditIntegrationQuestionEvent)
+
+### EditOptionsQuestionEvent (object)
++ eventType: EditQuestionEvent (string)
++ questionType: OptionsQuestion (string)
++ uuid: `4c8b9c0b-b40d-4917-8b26-d68b97f1604e` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `44cd1310-3c99-4e5e-9036-dda31300f510` (string)
++ type: `QuestionTypeOptions` (string)
++ title: `First Question` (string)
++ text: `Some descriptive content of this question` (string, optional)
++ requiredLevel: 2 (number, optional)
++ tagUuids: [`1f8dcefc-d57f-40f0-8b8f-50fd0b3cce1f`] (array[string])
++ expertUuids: [] (array[string])
++ referenceUuids: [] (array[string])
++ answerUuids: [] (array[string])
+
+### EditListQuestionEvent (object)
++ eventType: EditQuestionEvent (string)
++ questionType: ListQuestion (string)
++ uuid: `4c8b9c0b-b40d-4917-8b26-d68b97f1604e` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `44cd1310-3c99-4e5e-9036-dda31300f510` (string)
++ type: `QuestionTypeOptions` (string)
++ title: `First Question` (string)
++ text: `Some descriptive content of this question` (string, optional)
++ requiredLevel: 2 (number, optional)
++ tagUuids: [`1f8dcefc-d57f-40f0-8b8f-50fd0b3cce1f`] (array[string])
++ expertUuids: [] (array[string])
++ referenceUuids: [] (array[string])
++ itemTemplateTitle: Title (string)
++ itemTemplateQuestionUuids: [] (array[string])
+
+### EditValueQuestionEvent (object)
++ eventType: EditQuestionEvent (string)
++ questionType: ValueQuestion (string)
++ uuid: `4c8b9c0b-b40d-4917-8b26-d68b97f1604e` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `44cd1310-3c99-4e5e-9036-dda31300f510` (string)
++ type: `QuestionTypeOptions` (string)
++ title: `First Question` (string)
++ text: `Some descriptive content of this question` (string, optional)
++ requiredLevel: 2 (number, optional)
++ tagUuids: [`1f8dcefc-d57f-40f0-8b8f-50fd0b3cce1f`] (array[string])
++ expertUuids: [] (array[string])
++ referenceUuids: [] (array[string])
++ valueType (QuestionValueType)
+
+### EditIntegrationQuestionEvent (object)
++ eventType: AddQuestionEvent (string)
++ questionType: IntegrationQuestion (string)
++ uuid: `ed9e2d92-78fd-46de-9718-d649de263b62` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `09800c8c5-2e01-4f47-a553-fd8ccec32233` (string)
++ type: `QuestionTypeOptions` (string)
++ title: `First Question` (string)
++ text: `Some descriptive content of this question` (string, optional)
++ requiredLevel: 2 (number, optional)
++ tagUuids: [`1f8dcefc-d57f-40f0-8b8f-50fd0b3cce1f`] (array[string])
++ integrationUuid: `60528d86-d8b2-40ae-bf89-3bc44cdc711a` (string)
++ props (object)
+    + domain: dog (string)
+
+### DeleteQuestionEvent (object)
++ eventType: DeleteQuestionEvent (string)
++ uuid: `414636a2-941a-4301-a479-e5dc582f5700` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `44cd1310-3c99-4e5e-9036-dda31300f510` (string)
+
+### AddAnswerEvent (object)
++ eventType: AddAnswerEvent (string)
++ uuid: `0162f360-2e2b-4546-b3a9-5f3ce857ce1a` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `a7255bd9-edd7-40ce-97a7-dbd91fb69abc` (string)
++ label: First advice (string)
++ advice: Some helpful comment (string, optional)
++ metricMeasures (array[MetricMeasure])
+
+### EditAnswerEvent (object)
++ eventType: EditAnswerEvent (string)
++ uuid: `844f2a0f-a247-476f-9c2f-4381cdcd856f` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `a7255bd9-edd7-40ce-97a7-dbd91fb69abc` (string)
++ label: First advice (string)
++ advice: Some helpful comment (string, optional)
++ followUpUuids: [] (array[string])
++ metricMeasures (array[MetricMeasure])
+
+### DeleteAnswerEvent (object)
++ eventType: DeleteAnswerEvent (string)
++ uuid: `440e6c34-085c-401d-bd0b-e2da64c42092` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `a7255bd9-edd7-40ce-97a7-dbd91fb69abc` (string)
+
+### AddExpertEvent (object)
++ eventType: AddExpertEvent (string)
++ uuid: `2fb0a8e6-8854-44e8-a8f1-d702fff6f57b` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `023e53b0-3a78-42f7-994b-e4244d226396` (string)
++ name: Albert Einstein (string)
++ email: `albert.einstein@example.com` (string)
+
+### EditExpertEvent (object)
++ eventType: EditExpertEvent (string)
++ uuid: `9183953f-c179-4967-bc14-5c7e8b69c626` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `023e53b0-3a78-42f7-994b-e4244d226396` (string)
++ name: Albert Einstein (string)
++ email: `albert.einstein@example.com` (string)
+
+### DeleteExpertEvent (object)
++ eventType: DeleteExpertEvent (string)
++ uuid: `69ffac0d-2781-4a74-a1d9-faead0156792` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `023e53b0-3a78-42f7-994b-e4244d226396` (string)
+
+### AddReferenceEvent (enum)
++ (AddResourcePageReferenceEvent)
++ (AddURLReferenceEvent)
++ (AddCrossReferenceEvent)
+
+### AddResourcePageReferenceEvent (object)
++ eventType: AddReferenceEvent (string)
++ referenceType: ResourcePageReference (string)
++ uuid: `a77ce5ad-76e9-4286-ba85-8050078f1fbe` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `3747911b-0983-47a7-b49e-0c5f24dab588` (string)
++ shortUuid: abc (string)
+
+### AddURLReferenceEvent (object)
++ eventType: AddReferenceEvent (string)
++ referenceType: URLReference (string)
++ uuid: `7b3c243c-2548-49bb-a384-59b59c5a1d90` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `c5d8513b-1025-4fc2-98ed-1549f7f7e24b` (string)
++ url: `https://fair-metrics.com` (string)
++ label: Fair Metrics Definitions (string)
+
+### AddCrossReferenceEvent (object)
++ eventType: AddReferenceEvent (string)
++ referenceType: CrossReference (string)
++ uuid: `d0a47392-b706-4f4b-b158-082ef0aba54a` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `5fcf75a1-d0b1-42e1-b665-b49f933c688b` (string)
++ targetUuid: `91ed1251-b636-4214-949a-44a322bc6981` (string)
++ description: Some link to other part of KM (string)
+
+### EditReferenceEvent (enum)
++ (EditResourcePageReferenceEvent)
++ (EditURLReferenceEvent)
++ (EditCrossReferenceEvent)
+
+### EditResourcePageReferenceEvent (object)
++ eventType: EditReferenceEvent (string)
++ referenceType: ResourcePageReference (string)
++ uuid: `d4d14690-9ddb-46fa-9333-4d00f743b771` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `93f00ee9-5e8a-45c8-b159-2b38356367cf` (string)
++ shortUuid: abc (string)
+
+### EditURLReferenceEvent (object)
++ eventType: EditReferenceEvent (string)
++ referenceType: URLReference (string)
++ uuid: `26e39c4c-6454-4f1b-8a5a-2bb643a18489` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `2e59b25c-41f9-4c04-8398-5832c145d072` (string)
++ url: `https://fair-metrics.com` (string)
++ label: Fair Metrics Definitions (string)
+
+### EditCrossReferenceEvent (object)
++ eventType: EditReferenceEvent (string)
++ referenceType: CrossReference (string)
++ uuid: `62c2e9cd-6216-4869-a005-655bee35cc13` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `18a9e288-1c2d-48c1-bb66-dadb585bbcee` (string)
++ targetUuid: `91ed1251-b636-4214-949a-44a322bc6981` (string)
++ description: Some link to other part of KM (string)
+
+### DeleteReferenceEvent (object)
++ eventType: DeleteReferenceEvent (string) 
++ uuid: `505ec8cf-4cfc-41ef-9ba6-abbea078f130` (string)
++ path: [] (array[string])
++ entityUuid: `fe962a23-bc93-4a21-abe4-d0e2c121adbe` (string)
+
+### AddTagEvent (object)
++ eventType: AddTagEvent (string)
++ uuid: `985e710c-70c2-41bc-a1a4-aab935640796` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `11f5a195-226d-4e67-93df-665874a962a2` (string)
++ name: Data Science (string)
++ description: ... (string, optional)
++ color: `#112233` (string)
+
+### EditTagEvent (object)
++ eventType: EditTagEvent (string)
++ uuid: `8d35e73e-a7d6-4fb7-9cc0-6379ea56cf46` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `11f5a195-226d-4e67-93df-665874a962a2` (string)
++ name: Data Science (string)
++ description: ... (string, optional)
++ color: `#112233` (string)
+
+### DeleteTagEvent (object)
++ eventType: DeleteTagEvent (string)
++ uuid: `e469649d-5847-4f8b-bb5f-5758b33cca2b` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `11f5a195-226d-4e67-93df-665874a962a2` (string)
++ name: Data Science (string)
++ description: ... (string)
++ color: `#112233` (string)
+
+### AddIntegrationEvent (object)
++ eventType: AddIntegrationEvent (string)
++ uuid: `92b8c8c0-76d1-4949-9694-15b60384d43b` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `0fd8bada-3acb-4c5f-a679-ce72d5c394d8` (string)
++ name: Data Science (string)
++ description: ... (string)
++ color: `#112233` (string)
++ uuid: `0fd8bada-3acb-4c5f-a679-ce72d5c394d8` (string)
++ id: ontologyPortal (string)
++ name: Ontology Portal (string)
++ props (array[string])
+    - domain
+    - country 
++ logo: `some-base64-encoded-image` (string)
++ requestMethod: GET (string)
++ requestUrl: `${baseurl}/ontology-portal.json?domain=${domain}&country=${country}&q=${q}` (string)
++ requestHeaders (object)
++ requestBody: `{}` (string)
++ responseListField: `nested.results` (string)
++ responseIdField: id (string)
++ responseNameField: name (string)
++ itemUrl: `https://example.com/ontologies/${id}` (string)
+
+### EditIntegrationEvent (object)
++ eventType: EditIntegrationEvent (string)
++ uuid: `3d4f68a8-eadb-4501-ba81-e186358c8611` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `0fd8bada-3acb-4c5f-a679-ce72d5c394d8` (string)
++ name: Data Science (string)
++ description: ... (string)
++ color: `#112233` (string)
++ uuid: `0fd8bada-3acb-4c5f-a679-ce72d5c394d8` (string)
++ id: ontologyPortal (string)
++ name: Ontology Portal (string)
++ props (array[string])
+    - domain
+    - country 
++ logo: `some-base64-encoded-image` (string)
++ requestMethod: GET (string)
++ requestUrl: `${baseurl}/ontology-portal.json?domain=${domain}&country=${country}&q=${q}` (string)
++ requestHeaders (object)
++ requestBody: `{}` (string)
++ responseListField: `nested.results` (string)
++ responseIdField: id (string)
++ responseNameField: name (string)
++ itemUrl: `https://example.com/ontologies/${id}` (string)
+
+### DeleteIntegrationEvent (object)
++ eventType: DeleteIntegrationEvent (string)
++ uuid: `ccc0a8f9-6d26-4574-b3ec-f6ae2bc25072` (string)
++ parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
++ entityUuid: `11f5a195-226d-4e67-93df-665874a962a2` (string)
++ name: Data Science (string)
++ description: ... (string)
++ color: `#112233` (string)
+## Knowledge Model Section |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+### KnowledgeModelChange (object)
++ packageId: `cz.cvut.fit:software-engineering:1.0.0` (string, optional)
++ events (array[Event])
++ tagUuids: [] (array[string])
+
+### KnowledgeModel (object)
++ uuid: `6c46a7fc-918e-4195-88be-b146b628c0c8` (string)
++ name: My Knowledge Model (string)
++ chapterUuids (array[string])
++ tagUuids (array[string])
++ integrationUuids (array[string])
++ entities (KnowledgeModelEntities)
+
+### KnowledgeModelEntities (object)
++ uuid: `6c46a7fc-918e-4195-88be-b146b628c0c8` (string)
++ name: My Knowledge Model (string)
++ chapters (object)
+    + <uuid> (Chapter)
++ questions (object)
+    + <uuid> (Question)
++ answers (object)
+    + <uuid> (Answer)
++ experts (object)
+    + <uuid> (Expert)
++ references (object)
+    + <uuid> (Reference)
++ tags (object)
+    + <uuid> (Tag)
++ integrations (object)
+    + <uuid> (Integration)
+
+### Chapter (object)
++ uuid: `c5b07143-9d31-40c3-bc68-46cffc939c5b` (string)
++ title: `First Chapter` (string)
++ text: `Some descriptive content of this chapter` (string)
++ questionUuids (array[string])
+
+### Question (enum)
++ (OptionsQuestion)
++ (ListQuestion)
++ (ValueQuestion)
++ (IntegrationQuestion)
+
+### OptionsQuestion (object)
++ questionType: `OptionsQuestion` (string)
++ uuid: `ceddf7b3-a979-4409-9c60-c3f1b4865a5c` (string)
++ title: `First Question` (string)
++ text: `Some descriptive content of this question` (string)
++ requiredLevel: 2 (number, optional)
++ tagUuids: [`1f8dcefc-d57f-40f0-8b8f-50fd0b3cce1f`] (array[string])
++ referenceUuids (array[string])
++ expertUuids (array[string])
++ answerUuids (array[string])
+
+### ListQuestion (object)
++ questionType: `ListQuestion` (string)
++ uuid: `a549a59f-2f66-4436-be2c-a0e99f65f783` (string)
++ title: `First Question` (string)
++ text: `Some descriptive content of this question` (string)
++ requiredLevel: 2 (number, optional)
++ tagUuids: [`1f8dcefc-d57f-40f0-8b8f-50fd0b3cce1f`] (array[string])
++ referenceUuids (array[string])
++ expertUuids (array[string])
++ itemTemplateTitle: Some title (string)
++ itemTemplateQuestionUuids (array[string])
+
+### QuestionValueType (enum[string])
++ `StringValue`
++ `NumberValue`
++ `DateValue`
++ `TextValue`
+
+### ValueQuestion (object)
++ questionType: `ValueQuestion` (string)
++ uuid: `19f2bbd7-c05a-4f38-a4d5-cedff14ba1c9` (string)
++ title: `First Question` (string)
++ text: `Some descriptive content of this question` (string)
++ requiredLevel: 2 (number, optional)
++ tagUuids: [`1f8dcefc-d57f-40f0-8b8f-50fd0b3cce1f`] (array[string])
++ referenceUuids (array[string])
++ expertUuids (array[string])
++ valueType (QuestionValueType)
+
+### IntegrationQuestion (object)
++ questionType: `IntegrationQuestion` (string)
++ uuid: `7318d539-cbe5-437c-a08f-9bc0344b86a0` (string)
++ title: `First Question` (string)
++ text: `Some descriptive content of this question` (string)
++ requiredLevel: 2 (number, optional)
++ tagUuids: [`1f8dcefc-d57f-40f0-8b8f-50fd0b3cce1f`] (array[string])
++ referenceUuids (array[string])
++ expertUuids (array[string])
++ integrationUuid: `9ea64a5a-cc7e-49de-858d-be901e19093f` (string)
++ props (object)
+    + domain: dog (string)
+
+### Answer (object)
++ uuid: `cdffeda2-4bdc-45ee-8c49-f230a5af2f68` (string)
++ label: First advice (string)
++ advice: Some helpful comment (string)
++ followUpUuids (array[string])
++ metricMeasures (array[MetricMeasure])
+
+### Expert (object)
++ uuid: `5009a311-a19f-4d05-bd24-fa3237416fe4` (string)
++ name: Albert Einstein (string)
++ email: `albert.einstein@example.com` (string)
+
+### Reference (enum)
++ (ResourcePageReference)
++ (URLReference)
++ (CrossReference)
+
+### ResourcePageReference (object)
++ referenceType: ResourcePageReference (string)
++ uuid: `4889f3fd-3310-457f-b0b7-9805ad3954eb` (string)
++ shortUuid: abc (string)
+
+### URLReference (object)
++ referenceType: URLReference (string)
++ uuid: `7d92bc47-6a33-49a5-8878-e59b30cf03b3` (string)
++ url: `https://fair-metrics.com` (string)
++ label: Fair Metrics Definitions (string)
+
+### CrossReference (object)
++ referenceType: CrossReference (string)
++ uuid: `b1506e24-b9f7-4f07-9096-c1acd48759ca` (string)
++ targetUuid: `91ed1251-b636-4214-949a-44a322bc6981` (string)
++ description: Some link to other part of KM (string)
+
+### Metric (object)
++ uuid: `db667ca6-bb88-4953-8417-0ff6298f97f1` (string)
++ title: Findability (string)
++ abbreviation: F (string)
++ description: ... (string)
++ references: [] (array[Reference])
++ createdAt: `2018-06-27T16:24:12Z` (string)
++ updatedAt: `2018-06-27T16:24:12Z` (string)
+
+### MetricMeasure (object)
++ uuid: `00b434f8-b39f-45b2-b712-89eacbcc0af8` (string)
++ measure: 0.8 (number)
++ weight: 0.5 (number)
+
+### Tag (object)
++ uuid: `56aef441-cde6-4690-9ff4-7987d7cee9dc` (string)
++ name: Data Science (string)
++ description: ... (string)
++ color: `#112233` (string)
+
+### Integration (object)
++ uuid: `0fd8bada-3acb-4c5f-a679-ce72d5c394d8` (string)
++ name: Data Science (string)
++ description: ... (string)
++ color: `#112233` (string)
++ uuid: `0fd8bada-3acb-4c5f-a679-ce72d5c394d8` (string)
++ id: ontologyPortal (string)
++ name: Ontology Portal (string)
++ props (array[string])
+    - domain
+    - country 
++ logo: `some-base64-encoded-image` (string)
++ requestMethod: GET (string)
++ requestUrl: `${baseurl}/ontology-portal.json?domain=${domain}&country=${country}&q=${q}` (string)
++ requestHeaders (object)
++ requestBody: `{}` (string)
++ responseListField: `nested.results` (string)
++ responseIdField: id (string)
++ responseNameField: name (string)
++ itemUrl: `https://example.com/ontologies/${id}` (string)
+
+
+## Organization Section ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+### OrganizationRole (enum[string])
++ `AdminRole`
++ `UserRole`
+
+### Organization (object)
++ organizationId: dsw (string)
++ name: DSW (string)
++ description: Some description (string)
++ email: `dsw@example.com` (string)
++ role (OrganizationRole)
++ token: jkhjdkshfiousafanwjefvdzklvmiaofjaiofhajafhjabgahefiofjisofa (string)
++ active: true (boolean)
++ createdAt: `2018-06-27T16:24:12Z` (string)
++ updatedAt: `2018-06-27T16:24:12Z` (string)
++ lastAccessAt: `2018-06-27T16:24:12Z` (string)
+
+### OrganizationSimple (object)
++ organizationId: dsw (string)
++ name: DSW (string)
+
+### OrganizationCreate (object)
++ organizationId: dsw (string)
++ name: DSW (string)
++ description: Some description (string)
++ email: `dsw@example.com` (string)
+
+### OrganizationChange (object)
++ name: DSW (string)
++ description: Some description (string)
++ email: `dsw@example.com` (string)
+
+### OrganizationState (object)
++ active: true (boolean)
+
+## Package Section ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+### Package (object)
++ id: `cz.cvut.fit:software-engineering:1.0.0` (string)
++ name: Software Engineering (string)
++ organizationId: `cz.cvut.fit` (string)
++ kmId: `software-engineering:` (string)
++ version: `1.0.0` (string)
++ description: Customizations for Faculty of Information Technology (string)
++ createdAt: `2018-06-27T16:24:12Z` (string)
++ readme: `# Root \n ## About` (string)
++ metamodelVersion: 1 (number)
++ previousPackageId: `cz.cvut:common:1.0.0` (string, optional)
++ forkOfPackageId: `cz.cvut:common:1.0.0` (string, optional)
++ mergeCheckpointPackageId: `cz.cvut:common:1.0.0` (string, optional)
++ events (array[Event])
+
+### PackageSimple (object)
++ id: `cz.cvut.fit:software-engineering:1.0.0` (string)
++ name: Software Engineering (string)
++ organizationId: `cz.cvut.fit` (string)
++ kmId: `software-engineering:` (string)
++ version: `1.0.0` (string)
++ description: Customizations for Faculty of Information Technology (string)
++ createdAt: `2018-06-27T16:24:12Z` (string)
++ organization (OrganizationSimple)
+
+### PackageDetail (object)
++ id: `cz.cvut.fit:software-engineering:1.0.0` (string)
++ name: Software Engineering (string)
++ organizationId: `cz.cvut.fit` (string)
++ kmId: `software-engineering:` (string)
++ version: `1.0.0` (string)
++ description: Customizations for Faculty of Information Technology (string)
++ readme: `# Root \n ## About` (string)
++ license: `# License \n ## Notes` (string)
++ metamodelVersion: 1 (number)
++ previousPackageId: `cz.cvut:common:1.0.0` (string, optional)
++ forkOfPackageId: `cz.cvut:common:1.0.0` (string, optional)
++ mergeCheckpointPackageId: `cz.cvut:common:1.0.0` (string, optional)
++ versions (array[string])
+  + 1.0.0
+  + 2.0.0
++ organization (OrganizationSimple)
++ createdAt: `2018-06-27T16:24:12Z` (string)
+
+
+## Package Bundle Section ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+### PackageBundle (object)
++ id: `cz.cvut.fit:software-engineering:1.0.0` (string)
++ name: Software Engineering (string)
++ organizationId: `cz.cvut.fit` (string)
++ kmId: `software-engineering:` (string)
++ version: `1.0.0` (string)
++ metamodelVersion: 1 (number)
++ packages (array[Package])

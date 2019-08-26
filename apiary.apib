@@ -289,7 +289,7 @@ HOST: https://private-902e1c-registryserver.apiary-mock.com/
 + parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
 + entityUuid: `4ec7611b-0392-4602-9302-dfcb79654d24` (string)
 + title: `First Chapter` (string)
-+ text: `Some descriptive content of this chapter` (string)
++ text: `Some descriptive content of this chapter` (string, optional)
 + questions (array[Question])
 
 ### EditChapterEvent (object)
@@ -298,7 +298,7 @@ HOST: https://private-902e1c-registryserver.apiary-mock.com/
 + parentUuid: `1813c67b-b2e0-472f-9c16-1422901a199d` (string)
 + entityUuid: `4ec7611b-0392-4602-9302-dfcb79654d24` (string)
 + title: `First Chapter` (string)
-+ text: `Some descriptive content of this chapter` (string)
++ text: `Some descriptive content of this chapter` (string, optional)
 + questionUuids: [] (array[string])
 
 ### DeleteChapterEvent (object)
@@ -673,7 +673,7 @@ HOST: https://private-902e1c-registryserver.apiary-mock.com/
 ### Chapter (object)
 + uuid: `c5b07143-9d31-40c3-bc68-46cffc939c5b` (string)
 + title: `First Chapter` (string)
-+ text: `Some descriptive content of this chapter` (string)
++ text: `Some descriptive content of this chapter` (string, optional)
 + questionUuids (array[string])
 
 ### Question (enum)
